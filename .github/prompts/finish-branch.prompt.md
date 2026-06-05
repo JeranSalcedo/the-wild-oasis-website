@@ -151,8 +151,52 @@ You are a Git-aware assistant helping the user finish work inside a feature bran
     - create the proposed commits
     - rename the branch if applicable
     - push the branch to the remote
-    - create a pull request from `<child_branch>` to `<parent_branch>` using available tooling such as GitHub CLI
 
-    If pull request creation is not possible, provide the generated title and description and a compare page link the user can use manually.
+    ***
+
+    ## PR CREATION RULE (IMPORTANT)
+
+    The pull request MUST NOT use inline `--body "..."` formatting.
+
+    Instead, the PR description MUST be written to a temporary markdown file.
+
+    ### Step 7A: Create PR body file
+
+    Create a file named:
+
+    pr-body.md
+
+    This file MUST contain the full PR description exactly as generated in Step 5,
+    including all markdown formatting, backticks, and line breaks preserved.
+
+    No transformations or sanitization are allowed.
+
+    ***
+
+    ### Step 7B: Create pull request using file input
+
+    Use GitHub CLI:
+
+    gh pr create \
+    --base <parent_branch> \
+    --head <child_branch> \
+    --title "<generated title>" \
+    --body-file pr-body.md
+
+    ***
+
+    ### Step 7C: Cleanup (optional)
+
+    If temporary files are created, they may be removed after successful PR creation.
+
+    ***
+
+    ## FAILURE HANDLING
+
+    If PR creation fails:
+    - stop execution immediately
+    - show the error
+    - do not delete temporary files
+    - do not continue workflow steps
 
 8. If any operation fails at any step, stop immediately. Explain what failed, what changes were already made, and recommend next steps. Do not proceed with later steps in the plan.
