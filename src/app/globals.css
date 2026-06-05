@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+	scroll-behavior: smooth;
+}
+
+@layer components {
+	.spinner {
+		animation: rotate 1s infinite linear;
+		aspect-ratio: 1;
+		border: 8px solid theme(colors.primary.900);
+		border-radius: 50%;
+		border-right-color: theme(colors.primary.200);
+		margin: 3.2rem auto 1.6rem;
+		width: 60px;
+	}
+
+	.spinner-mini {
+		animation: rotate 1s infinite linear;
+		aspect-ratio: 1;
+		border: 2px solid theme(colors.primary.200);
+		border-radius: 50%;
+		border-right-color: transparent;
+		margin: 0;
+		width: 20px;
+	}
+
+	@keyframes rotate {
+		to {
+			transform: rotate(1turn);
+		}
+	}
+}
+
+.rdp {
+	--rdp-accent-color: theme(colors.accent.500) !important;
+	--rdp-background-color: theme(colors.accent.600) !important;
+	--rdp-cell-size: 32px !important;
+	margin: 0 !important;
+}
