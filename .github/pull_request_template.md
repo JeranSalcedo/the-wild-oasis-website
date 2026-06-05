@@ -1,19 +1,29 @@
 ## Summary
 
-<!-- Briefly describe the purpose of this PR -->
-<!-- Requires narrative text -->
+Provide a brief narrative explanation for this PR.
 
 ## Changes
 
-<!--
-### Scope
+Group changes by scope. Each scope must use a `###` heading.
 
-- Added ...
-- Updated ...
-- Removed ...
--->
+Each scope must represent one independent logical area of change.
+Scopes must not overlap in responsibility.
+
+Under each scope:
+
+- List the change as bullet points
+- Include affected files under each bullet or change group
+
+Format:
+
+### <scope name>
+
+- <change description>
+  - Affected files:
+    - `path/to/file.ts`
+    - `path/to/other-file.ts`
 
 ## Notes
 
-<!-- Additional notes or impacts in a list or checkbox -->
-<!-- Remove section if unnecessary -->
+Provide additional context, implementation details, edge cases, or trade-offs.
+If there are no notes, write "N/A".
