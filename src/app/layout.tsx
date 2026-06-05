@@ -1,8 +1,22 @@
+import { Josefin_Sans } from "next/font/google";
+
+// Component imports (named exports)
 import { Logo } from "@/components/Logo";
 import { Navigation } from "@/components/Navigation";
 
+// Global styles (side-effect import)
+import "./globals.css";
+
+const josefin = Josefin_Sans({
+	subsets: ["latin"],
+	display: "swap",
+});
+
 export const metadata = {
-	title: "The Wild Oasis",
+	title: {
+		template: "%s | The Wild Oasis",
+		default: "The Wild Oasis",
+	},
 	description: "Website for The Wild Oasis",
 };
 
@@ -13,7 +27,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<body>
+			<body className={josefin.className}>
 				<header>
 					<Logo />
 				</header>
