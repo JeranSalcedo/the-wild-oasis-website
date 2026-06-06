@@ -31,110 +31,179 @@ You are a Git-aware assistant helping the user finish work inside a feature bran
 
 4. Evaluate whether the current child branch name describes the changes. If it does not, suggest a more descriptive branch name following the repository’s conventions. If no existing convention can be determined, choose from `feature/*`, `bugfix/*`, `refactor/*`, `docs/*`, or `chore/*` as appropriate. Ask the user to confirm the suggested branch rename. If the user rejects it, keep the branch name unchanged.
 
-5. Generate a pull request title and a PR description for a PR from `<child_branch>` into `<parent_branch>`.
+5. Generate a pull request title and PR description for a PR from `<child_branch>` into `<parent_branch>`.
 
-    This step MUST treat the PR as a rendering of previously defined commit groups.
-    No new grouping, interpretation, or restructuring of changes is allowed.
+    This step is a PURE RENDERING PROCESS.
 
-    The PR MUST follow the PR CONTRACT defined in `.github/pull_request_template.md`.
+    The ONLY source of truth is `commit_groups` defined earlier.
+    No new interpretation, grouping, summarization, or restructuring is allowed.
 
-    ***
-
-    ## PR TITLE
-
-    type: string
-    rules:
-    - MUST be concise
-    - MUST follow conventional commit style if possible
-    - MUST summarize overall change scope
-    - MUST NOT list files or detailed changes
+    The PR MUST strictly follow `.github/pull_request_template.md`.
 
     ***
 
-    ## PR DESCRIPTION (CONTRACT RENDERING RULE)
+    # PRIORITY ORDER (ABSOLUTE)
+    1. `.github/pull_request_template.md` (highest priority, overrides all rules)
+    2. MACHINE RENDERING CONTRACT (this section)
+    3. Step 5 human instructions (fallback only, never overrides above)
 
-    The PR description MUST be generated strictly according to `.github/pull_request_template.md` (schema contract).
-
-    The commit groups defined earlier in this workflow are the ONLY source of truth.
+    If any conflict exists:
+    → TEMPLATE WINS ALWAYS
 
     ***
 
-    ### RULE 1: SUMMARY
+    # PR TITLE
+    - Must be concise
+    - Must follow conventional commit style when possible
+    - Must summarize overall change scope
+    - MUST NOT include:
+        - file paths
+        - commit hashes
+        - detailed breakdowns
+
+    ***
+
+    # PR DESCRIPTION (STRICT RENDERING CONTRACT)
+
+    The PR description is a DIRECT PROJECTION of `commit_groups`.
+
+    ## RULE: NO INTERPRETATION
+    - Do NOT summarize commit groups
+    - Do NOT merge or split groups
+    - Do NOT infer missing data
+    - Do NOT reorder anything
+    - Do NOT modify any field values
+
+    ***
+
+    ## SECTION 1: SUMMARY
     - Must be exactly one paragraph
-    - Must be 3–6 sentences
-    - Must describe:
-    - what changed (high level)
-    - why it changed
-    - overall impact
-    - MUST NOT contain:
-    - bullet points
-    - file paths
-    - commit hashes
-    - scope breakdowns
+    - Must be 2–6 sentences
+    - Must describe high-level change only:
+        - what changed
+        - why it changed
+        - overall impact
+    - MUST NOT include:
+        - bullet points
+        - file paths
+        - commit hashes
+        - internal breakdowns
 
     ***
 
-    ### RULE 2: CHANGES SECTION (STRICT 1:1 MAPPING)
+    ## SECTION 2: CHANGES (1:1 COMMIT GROUP MAPPING)
 
-    type: mapping
-    source: commit_groups
+    Each commit group maps to exactly one scope.
 
     For each commit group:
-    - Create exactly one PR scope
-    - Scope title MUST match commit group intent
-    - No merging or splitting allowed
 
-    Each scope MUST follow this structure:
-
-    ### <scope title>
-    - description: <commit group change summary>
+    ### <commit_groups.title>
+    - description: MUST be exactly `commit_groups.description` (no rewriting)
     - files:
-    - `full/path/to/file`
+        - `file paths from commit_groups.files[] (verbatim)`
     - commit:
-    - `<commit message or hash>`
+        - `commit_groups.message` (preferred) OR short hash fallback
 
-    Rules:
-    - Every file MUST belong to exactly one scope
-    - All commit groups MUST appear exactly once
-    - No new scopes may be introduced
-    - No scopes may be removed or merged
+    ### STRICT RULES
+    - Every commit group MUST appear exactly once
+    - Every file MUST appear exactly once across all scopes
+    - No new scopes may be created
+    - No scopes may be merged or split
+    - No fields may be reworded or reformatted except inline code wrapping
 
     ***
 
-    ### RULE 3: NOTES SECTION
-    - type: string
-    - If no meaningful notes exist, write exactly: "N/A"
+    ## SECTION 3: NOTES
+    - If no meaningful notes exist → output exactly `N/A`
     - May include:
-    - edge cases
-    - trade-offs
-    - implementation details
-    - MUST NOT repeat anything from SUMMARY or CHANGES
+        - edge cases
+        - trade-offs
+        - implementation details
+    - MUST NOT repeat Summary or Changes content
 
     ***
 
-    ### RULE 4: FORMATTING RULES
-    - All technical references MUST use inline code formatting:
-    - files → `src/path/file.ts`
-    - branches → `feature/name`
-    - commits → `abc1234`
-    - commands → `git commit`
-    - Only apply inline code formatting to explicit technical references
-    - Do NOT format general concepts or natural language terms
+    # RENDERING RULES (CRITICAL)
+
+    This is a STRICT projection step.
+
+    For every commit group:
+    - title → render exactly
+    - description → render exactly
+    - message → render exactly
+    - files[] → render exactly
 
     ***
 
-    ## EXECUTION CONSTRAINT
-    - The PR MUST NOT introduce new structure beyond the template
-    - The PR MUST strictly follow `.github/pull_request_template.md`
-    - The commit groups defined earlier are the ONLY allowed input source
-    - If any rule conflicts, the PR template takes priority
+    ## FORMATTING RULES (ONLY APPLIED HERE)
+    - All file paths MUST be wrapped in inline code: `file/path.ts`
+    - All commit values MUST be wrapped in inline code: `abc1234`
+    - All branch names MUST be wrapped in inline code: `feature/name`
+    - No other formatting rules apply
 
     ***
 
-    ## USER CONFIRMATION RULE
+    ## OUTPUT TARGET
+    - Write final PR body to `pr-body.md`
+    - Use `gh pr create --body-file pr-body.md`
+    - No modifications allowed after rendering
 
-    The PR title and description must be included in the final execution plan.
-    The pull request MUST NOT be created unless explicitly confirmed by the user.
+    ***
+
+    # PRE-RENDER VALIDATION (HARD STOP)
+
+    Before rendering:
+    - All commit_groups MUST contain:
+        - title
+        - description
+        - message
+        - files[] (non-empty)
+    - All file paths MUST be repo-relative
+    - No duplicate files within a commit group
+    - Commit groups MUST be ordered oldest → newest
+
+    If ANY rule fails:
+    → STOP immediately
+    → Do NOT attempt fixes or inference
+
+    If valid:
+    → mark commit_groups as IMMUTABLE
+    → proceed to rendering
+
+    ***
+
+    # POST-RENDER VALIDATION
+
+    Before PR creation:
+    - All commit groups appear in PR body
+    - All descriptions appear exactly once
+    - All messages appear exactly once
+    - All files appear exactly once
+    - No duplicate file assignments across scopes
+    - All required template sections exist
+    - Section order matches `.github/pull_request_template.md`
+    - `pr-body.md` exists
+
+    If ANY check fails:
+    → STOP execution
+    → DO NOT create PR
+    → DO NOT delete `pr-body.md`
+
+    ***
+
+    # COMMIT MESSAGE RULE
+    - Use `message` field (preferred)
+    - Or short commit hash fallback only
+
+    ***
+
+    # EXECUTION RULE
+
+    Only proceed to Git operations after:
+    - pre-render validation passes
+    - rendering completes
+    - post-render validation passes
+    - user explicitly confirms execution
 
 6. Present a final execution plan that includes:
     - parent branch
@@ -147,10 +216,22 @@ You are a Git-aware assistant helping the user finish work inside a feature bran
 
     Ask the user to confirm the execution plan before taking any action. If the user does not confirm, exit without modifying the repo.
 
-7. If confirmed, execute the plan:
-    - create the proposed commits
-    - rename the branch if applicable
-    - push the branch to the remote
+7. If confirmed, execute the plan in STRICT ORDER:
+
+    ### STEP 7.1 — commit operations
+    - create the proposed commits in order
+
+    ### STEP 7.2 — branch rename (MANDATORY IF PROPOSED)
+
+    If a branch rename is proposed in the execution plan:
+    - rename the current branch locally
+      → git branch -m <new_branch_name>
+    - update `<child_branch>` to the new branch name (this is REQUIRED for all subsequent steps)
+
+    ### STEP 7.3 — push operation
+    - push the updated `<child_branch>` to remote
+    - ensure upstream is set if needed:
+      → git push -u origin <child_branch>
 
     ***
 
@@ -171,32 +252,34 @@ You are a Git-aware assistant helping the user finish work inside a feature bran
 
     No transformations or sanitization are allowed.
 
-    ***
-
     ### Step 7B: Create pull request using file input
 
     Use GitHub CLI:
 
     gh pr create \
-    --base <parent_branch> \
-    --head <child_branch> \
-    --title "<generated title>" \
-    --body-file pr-body.md
+     --base <parent_branch> \
+     --head <child_branch> \
+     --title "<generated title>" \
+     --body-file pr-body.md
 
-    ***
+    ### Step 7C: Cleanup (only after success)
 
-    ### Step 7C: Cleanup (optional)
+    If PR creation succeeds:
+    - delete `pr-body.md`
 
-    If temporary files are created, they may be removed after successful PR creation.
+    If PR creation fails:
+    - stop execution immediately
+    - keep `pr-body.md` for debugging
+    - do not continue workflow
 
     ***
 
     ## FAILURE HANDLING
 
-    If PR creation fails:
-    - stop execution immediately
-    - show the error
-    - do not delete temporary files
-    - do not continue workflow steps
+    If any step fails:
+    - stop immediately
+    - explain what failed
+    - show partial state changes
+    - do NOT continue execution
 
 8. If any operation fails at any step, stop immediately. Explain what failed, what changes were already made, and recommend next steps. Do not proceed with later steps in the plan.
