@@ -2,7 +2,7 @@ import type { Cabin } from "../types/cabin.types";
 import type { CabinData } from "../types/cabin-data.types";
 
 export const mapCabin = (data: CabinData): Cabin => {
-	return {
+	const cabin: Cabin = {
 		id: data.id,
 		createdAt: data.created_at,
 		name: data.name,
@@ -12,4 +12,6 @@ export const mapCabin = (data: CabinData): Cabin => {
 		basePrice: data.base_price,
 		discount: data.discount,
 	};
+
+	return cabin;
 };
