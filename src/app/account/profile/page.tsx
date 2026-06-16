@@ -1,6 +1,6 @@
 export const metadata = {
 	title: "Profile",
-	description: "",
+	description: "Update your profile.",
 };
 
 // temporary

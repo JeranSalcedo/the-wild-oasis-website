@@ -3,7 +3,7 @@ import type { BookingWithCabinAndGuest } from "@/features/bookings";
 
 export const metadata = {
 	title: "Reservations",
-	description: "",
+	description: "Mange your reservations.",
 };
 
 const testData = [
