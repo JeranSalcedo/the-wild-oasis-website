@@ -1,32 +1,17 @@
-import Link from "next/link";
+import { LinkButton } from "./LinkButton";
 
 export const Navigation = () => {
 	return (
-		<nav className="z-10 text-xl">
-			<ul className="flex items-center gap-16">
+		<nav className="z-10 text-base sm:text-lg md:text-xl">
+			<ul className="flex items-center gap-6 sm:gap-8 md:gap-10">
 				<li>
-					<Link
-						href="/cabins"
-						className="transition-colors hover:text-accent-400"
-					>
-						Cabins
-					</Link>
+					<LinkButton href="/cabins">Cabins</LinkButton>
 				</li>
 				<li>
-					<Link
-						href="/about"
-						className="transition-colors hover:text-accent-400"
-					>
-						About
-					</Link>
+					<LinkButton href="/about">About</LinkButton>
 				</li>
 				<li>
-					<Link
-						href="/account"
-						className="transition-colors hover:text-accent-400"
-					>
-						Guest area
-					</Link>
+					<LinkButton href="/account">Guest area</LinkButton>
 				</li>
 			</ul>
 		</nav>

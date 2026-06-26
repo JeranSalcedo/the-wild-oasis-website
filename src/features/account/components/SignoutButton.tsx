@@ -1,10 +1,22 @@
 import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/solid";
 
-export const SignOutButton = () => {
+type SignoutButtonProps = {
+	className?: {
+		item: string;
+		icon: string;
+		text: string;
+	};
+};
+
+export const SignoutButton = ({
+	className = { item: "", icon: "", text: "" },
+}: SignoutButtonProps) => {
+	const { item, icon, text } = className;
+
 	return (
-		<button className="flex w-full items-center gap-4 px-5 py-3 font-semibold text-primary-200 transition-colors hover:bg-primary-900 hover:text-primary-100">
-			<ArrowRightStartOnRectangleIcon className="h-5 w-5 text-primary-600" />
-			<span>Sign out</span>
+		<button className={item}>
+			<ArrowRightStartOnRectangleIcon className={icon} />
+			<span className={text}>Sign out</span>
 		</button>
 	);
 };
