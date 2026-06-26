@@ -1,5 +1,7 @@
 import { Josefin_Sans } from "next/font/google";
 
+import { cn } from "@/utils/utils";
+
 // Component imports (named exports)
 import { Header } from "@/components/Header";
 
@@ -27,10 +29,14 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-				className={`${josefin.className} flex min-h-screen flex-col bg-primary-950 text-primary-100 antialiased`}
+				className={cn(
+					josefin.className,
+					"flex min-h-dvh flex-col bg-primary-950 text-primary-100 antialiased",
+					"text-sm sm:text-base md:text-lg",
+				)}
 			>
 				<Header />
-				<div className="grid flex-1 px-8 py-12">
+				<div className="grid flex-1 py-8">
 					<main className="mx-auto w-full max-w-7xl">{children}</main>
 				</div>
 			</body>

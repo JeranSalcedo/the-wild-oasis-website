@@ -1,3 +1,5 @@
+import { Heading } from "@/components/Heading";
+
 export const metadata = {
 	title: "Guest area",
 	description:
@@ -5,9 +7,5 @@ export const metadata = {
 };
 
 export default function Page() {
-	return (
-		<h2 className="mb-7 text-2xl font-semibold text-accent-400">
-			Welcome, %NAME%
-		</h2>
-	);
+	return <Heading level={2}>Welcome, %NAME%</Heading>;
 }

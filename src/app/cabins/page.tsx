@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 
+import { Heading } from "@/components/Heading";
 import { Spinner } from "@/components/Spinner";
 import { CabinList } from "@/features/cabins";
 
@@ -10,11 +11,9 @@ export const metadata = {
 
 export default function Page() {
 	return (
-		<div>
-			<h1 className="text-4xl font-medium text-accent-400">
-				Our Luxury Cabins
-			</h1>
-			<p className="mb-10 text-lg text-primary-200">
+		<div className="mx-10">
+			<Heading>Our Luxury Cabins</Heading>
+			<p className="mb-4 sm:mb-6 md:mb-8">
 				Cozy yet luxurious cabins, located right in the heart of the
 				Italian Dolomites. Imagine waking up to beautiful mountain
 				views, enjoying a cup of coffee on your private balcony, and

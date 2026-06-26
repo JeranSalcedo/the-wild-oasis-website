@@ -10,33 +10,33 @@ const nationality = "philippines";
 export default function Page() {
 	return (
 		<div>
-			<h2 className="mb-4 text-2xl font-semibold text-accent-400">
+			<h2 className="mb-4 text-base font-semibold text-accent-400 sm:text-xl md:text-2xl">
 				Update your guest profile
 			</h2>
 
-			<p className="mb-8 text-lg text-primary-200">
+			<p className="mb-8 text-primary-200">
 				Providing the following information will make your check-in
 				process faster and smoother. See you soon!
 			</p>
 
-			<form className="flex flex-col gap-6 bg-primary-900 px-12 py-8 text-lg">
-				<div className="space-y-2">
+			<form className="flex flex-col gap-4 bg-primary-900 px-8 py-4 sm:gap-5 sm:px-10 sm:py-6 md:gap-6 md:px-12 md:py-8">
+				<div className="sm:space-y-1 md:space-y-2">
 					<label>Full name</label>
 					<input
 						disabled
-						className="w-full rounded-sm bg-primary-200 px-5 py-3 text-primary-800 shadow-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400"
+						className="w-full rounded-sm bg-primary-200 px-3 py-1 text-primary-800 shadow-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400 sm:px-4 sm:py-1.5 md:px-5 md:py-2"
 					/>
 				</div>
 
-				<div className="space-y-2">
+				<div className="sm:space-y-1 md:space-y-2">
 					<label>Email address</label>
 					<input
 						disabled
-						className="w-full rounded-sm bg-primary-200 px-5 py-3 text-primary-800 shadow-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400"
+						className="w-full rounded-sm bg-primary-200 px-3 py-1 text-primary-800 shadow-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400 sm:px-4 sm:py-1.5 md:px-5 md:py-2"
 					/>
 				</div>
 
-				<div className="space-y-2">
+				<div className="sm:space-y-1 md:space-y-2">
 					<div className="flex items-center justify-between">
 						<label htmlFor="nationality">Where are you from?</label>
 						{/* <img
@@ -54,11 +54,11 @@ export default function Page() {
           /> */}
 				</div>
 
-				<div className="space-y-2">
+				<div className="sm:space-y-1 md:space-y-2">
 					<label htmlFor="nationalID">National ID number</label>
 					<input
 						name="nationalID"
-						className="w-full rounded-sm bg-primary-200 px-5 py-3 text-primary-800 shadow-sm"
+						className="w-full rounded-sm bg-primary-200 px-3 py-1 text-primary-800 shadow-sm sm:px-4 sm:py-1.5 md:px-5 md:py-2"
 					/>
 				</div>
 
