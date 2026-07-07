@@ -30,11 +30,11 @@ export const BookingCard = ({ booking }: BookingCardProps) => {
 	return (
 		<div className="flex flex-col border border-primary-800 md:flex-row">
 			<div className="relative aspect-square h-32">
-				{/* <img
+				<img
 					src={imageUrl}
 					alt={`Cabin ${name}`}
 					className="border-r border-primary-800 object-cover"
-				/> */}
+				/>
 			</div>
 
 			<div className="flex flex-grow flex-col px-4 py-1 sm:px-5 sm:py-2 md:px-6 md:py-3">

@@ -4,6 +4,9 @@ import { Heading } from "@/components/Heading";
 import { Spinner } from "@/components/Spinner";
 import { CabinList } from "@/features/cabins";
 
+// revalidate every hour
+export const revalidate = 3600;
+
 export const metadata = {
 	title: "Cabins",
 	description: "Information about the cabins at The Wild Oasis",
