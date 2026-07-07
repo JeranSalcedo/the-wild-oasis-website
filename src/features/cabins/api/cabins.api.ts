@@ -17,6 +17,8 @@ export const getCabin = cache(async (id: number): Promise<Cabin | null> => {
 		.single();
 
 	if (error) {
+		if (error.code === "PGRST116") return null;
+
 		throw new Error(error.message);
 	}
 
@@ -26,7 +28,8 @@ export const getCabin = cache(async (id: number): Promise<Cabin | null> => {
 export const getCabins = async (): Promise<Cabin[]> => {
 	const { data, error } = await supabase
 		.from("cabins")
-		.select("id, name, image_url, max_capacity, base_price, discount");
+		.select("id, name, image_url, max_capacity, base_price, discount")
+		.order("name", { ascending: true });
 
 	if (error) {
 		throw new Error(error.message);
