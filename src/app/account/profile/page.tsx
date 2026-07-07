@@ -3,10 +3,6 @@ export const metadata = {
 	description: "Update your profile.",
 };
 
-// temporary
-const countryFlag = "ph.jpg";
-const nationality = "philippines";
-
 export default function Page() {
 	return (
 		<div>
