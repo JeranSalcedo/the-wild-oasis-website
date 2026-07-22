@@ -1,9 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
 	CalendarDaysIcon,
 	HomeIcon,
 	UserIcon,
 } from "@heroicons/react/24/solid";
+
+import { cn } from "@/utils/utils";
 
 import { SignoutButton } from "./SignoutButton";
 
@@ -32,12 +37,27 @@ const navLinks = [
 ];
 
 export const SideNavigation = () => {
+	const pathname = usePathname();
+
 	return (
 		<nav className="border-r border-primary-900">
 			<ul className="mr-1 flex h-full flex-col gap-2 sm:gap-3 md:gap-4">
 				{navLinks.map((link) => (
 					<li key={link.name}>
-						<Link className={navItemClasses.item} href={link.href}>
+						<Link
+							className={cn(
+								navItemClasses.item,
+								link.href === pathname
+									? "pointer-events-none cursor-not-allowed bg-primary-900"
+									: "",
+							)}
+							href={link.href}
+							aria-disabled={link.href === pathname}
+							tabIndex={link.href === pathname ? -1 : undefined}
+							onClick={(e) => {
+								if (link.href === pathname) e.preventDefault();
+							}}
+						>
 							{link.icon}
 							<span className={navItemClasses.text}>
 								{link.name}
