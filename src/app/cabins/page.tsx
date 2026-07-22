@@ -1,18 +1,26 @@
 import { Suspense } from "react";
 
+import { CabinFilter, CabinList, getCabinFilter } from "@/features/cabins";
+
 import { Heading } from "@/components/Heading";
 import { Spinner } from "@/components/Spinner";
-import { CabinList } from "@/features/cabins";
 
-// revalidate every hour
-export const revalidate = 3600;
+import { ReservationReminder } from "@/features/bookings";
+
+type PageProps = {
+	searchParams: {
+		capacity?: string;
+	};
+};
 
 export const metadata = {
 	title: "Cabins",
 	description: "Information about the cabins at The Wild Oasis",
 };
 
-export default function Page() {
+export default function Page({ searchParams }: PageProps) {
+	const filter = getCabinFilter(searchParams.capacity);
+
 	return (
 		<div className="mx-10">
 			<Heading>Our Luxury Cabins</Heading>
@@ -26,8 +34,13 @@ export default function Page() {
 				lovers and adventure seekers alike.
 			</p>
 
-			<Suspense fallback={<Spinner />}>
-				<CabinList />
+			<div className="mb-4 flex justify-center sm:mb-5 sm:justify-end md:mb-6">
+				<CabinFilter />
+			</div>
+
+			<Suspense key={filter} fallback={<Spinner />}>
+				<CabinList filter={filter} />
+				<ReservationReminder />
 			</Suspense>
 		</div>
 	);

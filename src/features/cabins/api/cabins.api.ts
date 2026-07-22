@@ -2,16 +2,16 @@ import { cache } from "react";
 
 import { supabase } from "@/lib/supabase/client";
 
-import { mapCabin } from "./cabins.mapper";
+import type { Cabin } from "../types/cabin.types";
+import type { CabinData } from "../types/cabin-data.types";
 
-import { Cabin } from "../types/cabin.types";
-import { CabinData } from "../types/cabin-data.types";
+import { mapCabin } from "./cabins.mapper";
 
 export const getCabin = cache(async (id: number): Promise<Cabin | null> => {
 	const { data, error } = await supabase
 		.from("cabins")
 		.select(
-			"name, description, image_url, max_capacity, base_price, discount",
+			"id, created_at, name, description, image_url, max_capacity, base_price, discount",
 		)
 		.eq("id", id)
 		.single();
