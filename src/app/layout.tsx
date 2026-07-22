@@ -2,11 +2,14 @@ import { Josefin_Sans } from "next/font/google";
 
 import { cn } from "@/utils/utils";
 
+// Global styles (side-effect import)
+import "@daypicker/react/style.css";
+import "./globals.css";
+
+import { BreakpointProvider } from "@/contexts/BreakpointContext";
+
 // Component imports (named exports)
 import { Header } from "@/components/Header";
-
-// Global styles (side-effect import)
-import "./globals.css";
 
 const josefin = Josefin_Sans({
 	subsets: ["latin"],
@@ -35,10 +38,14 @@ export default function RootLayout({
 					"text-sm sm:text-base md:text-lg",
 				)}
 			>
-				<Header />
-				<div className="grid flex-1 py-8">
-					<main className="mx-auto w-full max-w-7xl">{children}</main>
-				</div>
+				<BreakpointProvider>
+					<Header />
+					<div className="grid flex-1 py-8">
+						<main className="mx-auto w-full min-w-0 max-w-7xl">
+							{children}
+						</main>
+					</div>
+				</BreakpointProvider>
 			</body>
 		</html>
 	);

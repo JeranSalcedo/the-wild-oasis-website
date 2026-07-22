@@ -44,9 +44,49 @@ html {
 	}
 }
 
-.rdp {
-	--rdp-accent-color: theme(colors.accent.500) !important;
-	--rdp-background-color: theme(colors.accent.600) !important;
-	--rdp-cell-size: 32px !important;
-	margin: 0 !important;
+.rdp-root {
+	--rdp-accent-color: theme(colors.accent.500);
+	--rdp-accent-background-color: theme(colors.accent.600);
+
+	@apply m-0;
+}
+
+.rdp-dropdown {
+	@apply cursor-pointer;
+}
+
+.rdp-caption_label {
+	@apply text-accent-400;
+}
+
+.rdp-caption_label > .rdp-chevron {
+	@apply hidden;
+}
+
+.rdp-root :is(.rdp-button_previous, .rdp-button_next):focus-visible {
+	@apply outline-accent-300;
+}
+
+.rdp-day_button:focus-visible {
+	@apply outline-accent-600;
+}
+
+.rdp-dropdown:focus-visible ~ .rdp-caption_label {
+	@apply outline-4 outline-offset-4 outline-accent-300;
+}
+
+.rdp-months {
+	@apply flex gap-4;
+}
+
+.rdp-month {
+	@apply min-w-0 flex-1 text-sm;
+}
+
+.rdp-dropdowns {
+	@apply p-3;
+}
+
+.rdp-month_grid {
+	@apply sm:w-full sm:table-fixed md:w-auto md:table-auto;
 }
