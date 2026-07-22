@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 import { ReactNode } from "react";
@@ -15,6 +17,7 @@ type LinkButtonProps = {
 	className?: string;
 	href?: string;
 	type?: keyof typeof variants;
+	disabled?: boolean;
 	children: ReactNode;
 };
 
@@ -22,10 +25,23 @@ export const LinkButton = ({
 	className,
 	href = "",
 	type = "link",
+	disabled = false,
 	children,
 }: LinkButtonProps) => {
 	return (
-		<Link href={href} className={cn(variants[type], className)}>
+		<Link
+			href={href}
+			className={cn(
+				variants[type],
+				disabled ? "pointer-events-none cursor-not-allowed" : "",
+				className,
+			)}
+			aria-disabled={disabled}
+			tabIndex={disabled ? -1 : undefined}
+			onClick={(e) => {
+				if (disabled) e.preventDefault();
+			}}
+		>
 			{children}
 		</Link>
 	);
