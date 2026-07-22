@@ -1,4 +1,4 @@
-import type { Cabin } from "@/features/cabins";
+import type { CabinType } from "@/features/cabins";
 import type { Guest } from "@/features/guests";
 
 export type Booking = {
@@ -20,6 +20,6 @@ export type Booking = {
 };
 
 export type BookingWithCabinAndGuest = Booking & {
-	cabin: Cabin;
+	cabin: CabinType;
 	guest: Guest;
 };
