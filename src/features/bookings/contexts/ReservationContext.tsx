@@ -15,6 +15,8 @@ type ReservationContextType = {
 	range: DateRange | undefined;
 	rangeSelected: boolean;
 	nightsCount: number;
+	isValid: boolean;
+	setIsValid: Dispatch<SetStateAction<boolean>>;
 	setRange: Dispatch<SetStateAction<DateRange | undefined>>;
 	resetRange: () => void;
 };
@@ -27,6 +29,7 @@ const ReservationContext = createContext<ReservationContextType | undefined>(
 
 export const ReservationProvider = ({ children }: ReservationProviderProps) => {
 	const [range, setRange] = useState<DateRange | undefined>(initialState);
+	const [isValid, setIsValid] = useState(false);
 
 	const [rangeSelected, nightsCount] = useMemo(() => {
 		if (!range?.from || !range?.to) return [false, 0] as const;
@@ -38,7 +41,15 @@ export const ReservationProvider = ({ children }: ReservationProviderProps) => {
 
 	return (
 		<ReservationContext.Provider
-			value={{ range, rangeSelected, nightsCount, setRange, resetRange }}
+			value={{
+				range,
+				rangeSelected,
+				nightsCount,
+				isValid,
+				setIsValid,
+				setRange,
+				resetRange,
+			}}
 		>
 			{children}
 		</ReservationContext.Provider>

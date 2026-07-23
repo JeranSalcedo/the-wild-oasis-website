@@ -1,14 +1,18 @@
 "use client";
 
+import { useEffect, useMemo } from "react";
 import { DayPicker } from "@daypicker/react";
 
 import { useBreakpoint } from "@/contexts/BreakpointContext";
 import { useReservation } from "../contexts/ReservationContext";
 
+import { getInvalidDateModifiers } from "../utils/get-invalid-date-modifiers";
+
 import type { Booking } from "../types/booking.types";
 import type { Settings } from "@/features/settings";
 
 import { Button } from "@/components/Button";
+import { CustomDayButton } from "./CustomDayButton";
 
 type DateSelectorProps = {
 	basePrice: number;
@@ -24,8 +28,14 @@ export const DateSelector = ({
 	settings,
 }: DateSelectorProps) => {
 	const { sm, md, lg } = useBreakpoint();
-	const { range, rangeSelected, nightsCount, setRange, resetRange } =
-		useReservation();
+	const {
+		range,
+		rangeSelected,
+		nightsCount,
+		setIsValid,
+		setRange,
+		resetRange,
+	} = useReservation();
 	const { bookingLengthMin, bookingLengthMax } = settings;
 
 	const baseStyle = (!sm || md) && !lg;
@@ -50,6 +60,22 @@ export const DateSelector = ({
 		...bookedDates,
 	];
 
+	const invalidModifiers = useMemo(
+		() => getInvalidDateModifiers(range, bookedDates),
+		[range, bookedDates],
+	);
+	const invalidSelection = useMemo(
+		() =>
+			Object.values(invalidModifiers).some(
+				(invalid) => invalid.length > 0,
+			),
+		[invalidModifiers],
+	);
+
+	useEffect(() => {
+		setIsValid(!invalidSelection);
+	}, [invalidSelection, setIsValid]);
+
 	return (
 		<div className="flex w-fit flex-col">
 			<DayPicker
@@ -69,10 +95,11 @@ export const DateSelector = ({
 				disabled={disabledDates}
 				onSelect={setRange}
 				modifiers={{
-					bookedDates: bookedDates,
+					bookedDates,
+					...invalidModifiers,
 				}}
-				modifiersClassNames={{
-					bookedDates: "bg-accent-900",
+				components={{
+					DayButton: CustomDayButton,
 				}}
 				excludeDisabled
 			/>
