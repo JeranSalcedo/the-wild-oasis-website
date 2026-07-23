@@ -9,7 +9,9 @@ type ReservationFormProps = {
 };
 
 export const ReservationForm = ({ maxCapacity }: ReservationFormProps) => {
-	const { rangeSelected } = useReservation();
+	const { rangeSelected, isValid } = useReservation();
+
+	const disable = !rangeSelected || !isValid;
 
 	return (
 		<div className="flex-1">
@@ -75,7 +77,10 @@ export const ReservationForm = ({ maxCapacity }: ReservationFormProps) => {
 							Start by selecting dates
 						</p>
 					)}
-					<Button className="text-sm sm:text-base md:px-4 md:py-3 md:text-sm md:focus:outline-1 md:focus:outline-offset-1 lg:px-5 lg:py-4 lg:text-base lg:focus:outline-2 lg:focus:outline-offset-2">
+					<Button
+						className="text-sm sm:text-base md:px-4 md:py-3 md:text-sm md:focus:outline-1 md:focus:outline-offset-1 lg:px-5 lg:py-4 lg:text-base lg:focus:outline-2 lg:focus:outline-offset-2"
+						disabled={disable}
+					>
 						Reserve now
 					</Button>
 				</div>
