@@ -1,3 +1,5 @@
+import { requireSession } from "@/features/auth";
+
 import { Heading } from "@/components/Heading";
 
 export const metadata = {
@@ -6,6 +8,14 @@ export const metadata = {
 		"Manage your account settings and preferences at The Wild Oasis",
 };
 
-export default function Page() {
-	return <Heading level={2}>Welcome, %NAME%</Heading>;
+export default async function Page() {
+	const session = await requireSession();
+
+	return (
+		<div className="py-8">
+			<Heading level={2}>
+				Welcome, {session.user?.name ?? "Guest"}
+			</Heading>
+		</div>
+	);
 }

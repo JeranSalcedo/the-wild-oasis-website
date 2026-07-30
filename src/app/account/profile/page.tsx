@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function Page() {
 	return (
-		<div>
+		<div className="py-8">
 			<h2 className="mb-4 text-base font-semibold text-accent-400 sm:text-xl md:text-2xl">
 				Update your guest profile
 			</h2>

@@ -93,7 +93,7 @@ export default function Page() {
 	);
 
 	return (
-		<div>
+		<div className="py-8">
 			<Heading level={2}>Your reservations</Heading>
 
 			{bookings.length === 0 ? (
