@@ -34,14 +34,14 @@ export default function RootLayout({
 			<body
 				className={cn(
 					josefin.className,
-					"flex min-h-dvh flex-col bg-primary-950 text-primary-100 antialiased",
+					"flex h-dvh flex-col bg-primary-950 text-primary-100 antialiased",
 					"text-sm sm:text-base md:text-lg",
 				)}
 			>
 				<BreakpointProvider>
 					<Header />
-					<div className="grid flex-1 py-8">
-						<main className="mx-auto w-full min-w-0 max-w-7xl">
+					<div className="grid min-h-0 flex-1">
+						<main className="mx-auto flex min-h-0 w-full min-w-0 max-w-7xl flex-col">
 							{children}
 						</main>
 					</div>

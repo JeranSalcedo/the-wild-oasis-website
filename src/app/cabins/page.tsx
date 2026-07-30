@@ -22,7 +22,7 @@ export default function Page({ searchParams }: PageProps) {
 	const filter = getCabinFilter(searchParams.capacity);
 
 	return (
-		<div className="mx-10">
+		<div className="mx-10 py-8">
 			<Heading>Our Luxury Cabins</Heading>
 			<p className="mb-4 sm:mb-6 md:mb-8">
 				Cozy yet luxurious cabins, located right in the heart of the

@@ -29,7 +29,7 @@ export default async function Page() {
 	const cabinsCount = cabins?.length ?? 0;
 
 	return (
-		<div className="mx-10 grid grid-cols-1 items-center gap-y-8 sm:gap-y-12 md:grid-cols-5 md:gap-x-24 md:gap-y-16">
+		<div className="mx-10 grid grid-cols-1 items-center gap-y-8 py-8 sm:gap-y-12 md:grid-cols-5 md:gap-x-24 md:gap-y-16">
 			<div className={cn(styles.container, "order-1")}>
 				<Heading>Welcome to The Wild Oasis</Heading>
 

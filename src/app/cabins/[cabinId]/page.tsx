@@ -48,7 +48,7 @@ export default async function Page({ params }: PageProps) {
 	const { name } = cabin;
 
 	return (
-		<div className="mx-10 max-w-6xl">
+		<div className="mx-10 max-w-6xl py-8">
 			<Cabin cabin={cabin} />
 
 			<Heading
