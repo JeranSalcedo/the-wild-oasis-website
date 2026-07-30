@@ -19,6 +19,7 @@ type DateSelectorProps = {
 	discount?: number;
 	bookings: Booking[];
 	settings: Settings;
+	loggedIn: boolean;
 };
 
 export const DateSelector = ({
@@ -26,6 +27,7 @@ export const DateSelector = ({
 	discount = 0,
 	bookings,
 	settings,
+	loggedIn,
 }: DateSelectorProps) => {
 	const { sm, md, lg } = useBreakpoint();
 	const {
@@ -38,7 +40,7 @@ export const DateSelector = ({
 	} = useReservation();
 	const { bookingLengthMin, bookingLengthMax } = settings;
 
-	const baseStyle = (!sm || md) && !lg;
+	const baseStyle = (!sm || (loggedIn && md)) && !lg;
 	const navStyle = baseStyle ? "around" : undefined;
 	const calendarsCount = baseStyle ? 1 : 2;
 
