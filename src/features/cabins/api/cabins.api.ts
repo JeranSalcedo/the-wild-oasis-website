@@ -1,6 +1,6 @@
 import { cache } from "react";
 
-import { supabase } from "@/lib/supabase/client";
+import { supabase } from "@/lib/supabase/server";
 
 import type { Cabin } from "../types/cabin.types";
 import type { CabinData } from "../types/cabin-data.types";

@@ -1,8 +1,7 @@
-"use client";
+import Image from "next/image";
+import { auth } from "@/auth";
 
-import { usePathname } from "next/navigation";
-
-import { LinkButton } from "./LinkButton";
+import { NavigationButton } from "./NavigationButton";
 
 const navLinks = [
 	{
@@ -19,23 +18,32 @@ const navLinks = [
 	},
 ];
 
-export const Navigation = () => {
-	const pathname = usePathname();
+export const Navigation = async () => {
+	const session = await auth();
 
 	return (
 		<nav className="z-10 text-base sm:text-lg md:text-xl">
 			<ul className="flex items-center gap-6 sm:gap-8 md:gap-10">
 				{navLinks.map((link) => (
 					<li key={link.name}>
-						<LinkButton
-							className={
-								link.href === pathname ? "text-accent-400" : ""
-							}
-							href={link.href}
-							disabled={link.href == pathname}
-						>
-							{link.name}
-						</LinkButton>
+						<NavigationButton href={link.href}>
+							{link.href === "/account" &&
+							session?.user?.image ? (
+								<div className="flex items-center gap-2 sm:gap-2.5 md:gap-3">
+									<Image
+										className="h-6 w-6 rounded-full sm:h-7 sm:w-7 md:h-8 md:w-8"
+										src={session.user.image ?? ""}
+										alt={session.user.name ?? ""}
+										width={32}
+										height={32}
+										referrerPolicy="no-referrer"
+									/>
+									<span>{link.name}</span>
+								</div>
+							) : (
+								<span>{link.name}</span>
+							)}
+						</NavigationButton>
 					</li>
 				))}
 			</ul>

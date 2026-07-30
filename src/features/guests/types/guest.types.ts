@@ -1,7 +1,7 @@
 export type Guest = {
 	id: number;
 	createdAt: string;
-	fullName: string;
+	name: string;
 	email: string;
 	nationalId: string;
 	nationality: string;
