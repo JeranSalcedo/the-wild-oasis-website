@@ -12,7 +12,7 @@ export default async function Page() {
 	const session = await requireSession();
 
 	return (
-		<div className="py-8">
+		<div className="py-8 pr-5">
 			<Heading level={2}>
 				Welcome, {session.user?.name ?? "Guest"}
 			</Heading>

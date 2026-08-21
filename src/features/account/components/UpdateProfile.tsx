@@ -1,59 +1,53 @@
-"use client";
+import { updateGuest } from "@/features/guests/actions/update-guest";
 
-import { ReactNode, useState } from "react";
+import { getGuest } from "@/features/guests";
 
-import { Button } from "@/components/Button";
+import { requireSession } from "@/features/auth";
 
-type UpdateProfileProps = {
-	children: ReactNode;
-};
+import { FormElements } from "./FormElements";
+import { SelectCountry } from "./SelectCountry";
 
-export const UpdateProfile = ({ children }: UpdateProfileProps) => {
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
+export const UpdateProfile = async () => {
+	const session = await requireSession();
+	const guest = await getGuest(session.user.email!);
+
+	if (!guest) throw new Error("Guest profile not found");
+
+	const { name, email, nationalId, countryFlag } = guest;
 
 	return (
-		<form className="flex flex-col gap-4 bg-primary-900 px-8 py-4 sm:gap-5 sm:px-10 sm:py-6 md:gap-6 md:px-12 md:py-8">
-			<div className="sm:space-y-1 md:space-y-2">
+		<form
+			className="flex flex-col gap-4 bg-primary-900 px-8 py-4 sm:gap-5 sm:px-10 sm:py-6 md:gap-6 md:px-12 md:py-8"
+			action={updateGuest}
+		>
+			<div className="space-y-1">
 				<label>Full name</label>
 				<input
-					disabled
 					className="w-full rounded-sm bg-primary-200 px-3 py-1 text-primary-800 shadow-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400 sm:px-4 sm:py-1.5 md:px-5 md:py-2"
+					name="name"
+					defaultValue={name}
+					disabled
 				/>
 			</div>
 
-			<div className="sm:space-y-1 md:space-y-2">
+			<div className="space-y-1">
 				<label>Email address</label>
 				<input
-					disabled
 					className="w-full rounded-sm bg-primary-200 px-3 py-1 text-primary-800 shadow-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400 sm:px-4 sm:py-1.5 md:px-5 md:py-2"
+					name="email"
+					defaultValue={email}
+					disabled
 				/>
 			</div>
 
-			<div className="sm:space-y-1 md:space-y-2">
-				<div className="flex items-center justify-between">
-					<label htmlFor="nationality">Where are you from?</label>
-					{/* <img
-							src={countryFlag}
-							alt="Country flag"
-							className="h-5 rounded-sm"
-						/> */}
-				</div>
-
-				{children}
-			</div>
-
-			<div className="sm:space-y-1 md:space-y-2">
-				<label htmlFor="nationalID">National ID number</label>
-				<input
-					name="nationalID"
-					className="w-full rounded-sm bg-primary-200 px-3 py-1 text-primary-800 shadow-sm sm:px-4 sm:py-1.5 md:px-5 md:py-2"
+			<FormElements nationalId={nationalId} countryFlag={countryFlag}>
+				<SelectCountry
+					id="nationality"
+					name="nationality"
+					className="w-full rounded-sm bg-primary-200 px-5 py-3 text-primary-800 shadow-sm"
+					defaultCountry={`${guest.nationality}%${guest.countryFlag}`}
 				/>
-			</div>
-
-			<div className="flex items-center justify-end gap-6">
-				<Button>Update profile</Button>
-			</div>
+			</FormElements>
 		</form>
 	);
 };

@@ -11,14 +11,10 @@ type NavigationButtonProps = {
 
 export const NavigationButton = ({ href, children }: NavigationButtonProps) => {
 	const pathname = usePathname();
-	const active = pathname === href;
+	const active = pathname.startsWith(href);
 
 	return (
-		<LinkButton
-			className={active ? "text-accent-400" : ""}
-			href={href}
-			disabled={active}
-		>
+		<LinkButton className={active ? "text-accent-400" : ""} href={href}>
 			{children}
 		</LinkButton>
 	);

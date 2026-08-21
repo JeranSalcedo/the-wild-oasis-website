@@ -36,7 +36,13 @@ export const Reservation = async ({ cabin }: ReservationProps) => {
 				loggedIn={!!user}
 			/>
 			{user ? (
-				<ReservationForm user={user} maxCapacity={maxCapacity} />
+				<ReservationForm
+					user={user}
+					cabinId={cabinId}
+					basePrice={basePrice}
+					discount={discount}
+					maxCapacity={maxCapacity}
+				/>
 			) : (
 				<div className="flex-1 bg-primary-800">
 					<p className="self-center px-4 py-5 text-center text-base sm:px-5 sm:py-6 sm:text-lg">

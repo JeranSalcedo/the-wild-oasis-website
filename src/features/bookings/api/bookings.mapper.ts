@@ -1,10 +1,15 @@
 import { mapCabin } from "@/features/cabins";
 import { mapGuest } from "@/features/guests";
 
-import type { Booking, BookingWithCabinAndGuest } from "../types/booking.types";
+import type {
+	Booking,
+	BookingWithCabin,
+	BookingWithCabinAndGuest,
+} from "../types/booking.types";
 import type {
 	BookingData,
 	BookingWithCabinAndGuestData,
+	BookingWithCabinData,
 } from "../types/booking-data.types";
 
 export const mapBooking = (data: BookingData): Booking => {
@@ -12,8 +17,8 @@ export const mapBooking = (data: BookingData): Booking => {
 		id: data.id,
 		createdAt: data.created_at,
 		status: data.status ?? "",
-		dateStart: data.date_start ?? "",
-		dateEnd: data.date_end ?? "",
+		dateStart: data.date_start ? `${data.date_start}Z` : "",
+		dateEnd: data.date_end ? `${data.date_end}Z` : "",
 		nightsCount: data.nights_count ?? 0,
 		guestsCount: data.guests_count ?? 0,
 		priceCabin: data.price_cabin ?? 0,
@@ -34,5 +39,18 @@ export const mapBookingWithCabinAndGuest = (
 		...mapBooking(data),
 		cabin: mapCabin(data.cabins),
 		guest: mapGuest(data.guests),
+	};
+};
+
+export const mapBookingWithCabin = (
+	data: BookingWithCabinData,
+): BookingWithCabin => {
+	if (!data.cabins) {
+		throw new Error("Booking cabin not found");
+	}
+
+	return {
+		...mapBooking(data),
+		cabin: mapCabin(data.cabins),
 	};
 };
