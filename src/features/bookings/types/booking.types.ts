@@ -23,3 +23,7 @@ export type BookingWithCabinAndGuest = Booking & {
 	cabin: CabinType;
 	guest: Guest;
 };
+
+export type BookingWithCabin = Booking & {
+	cabin: CabinType;
+};

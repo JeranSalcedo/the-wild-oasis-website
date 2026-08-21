@@ -48,7 +48,7 @@ export const DateSelector = ({
 	const endDate = new Date();
 	endDate.setFullYear(endDate.getFullYear() + 5);
 
-	const totalPrice = basePrice * nightsCount;
+	const totalPrice = (basePrice - discount) * nightsCount;
 
 	const displayClear = rangeSelected || !baseStyle;
 
