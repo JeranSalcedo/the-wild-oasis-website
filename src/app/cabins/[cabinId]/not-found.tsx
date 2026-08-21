@@ -2,7 +2,7 @@ import { LinkButton } from "@/components/LinkButton";
 
 export default function NotFound() {
 	return (
-		<main className="flex flex-col items-center justify-center gap-2.5 text-center sm:gap-5">
+		<main className="flex flex-col items-center justify-center gap-2.5 py-8 text-center sm:gap-5">
 			<h1 className="text-xl font-semibold sm:text-2xl md:text-3xl">
 				This cabin could not be found.
 			</h1>
